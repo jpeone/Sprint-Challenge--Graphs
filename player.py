@@ -8,4 +8,7 @@ class Player:
             if (show_rooms):
                 next_room.print_room_description(self)
         else:
+            print('current room', self.current_room.id)
+            print('directions possible', self.current_room.get_exits())
+            print('direction traveled', direction)
             print("You cannot move in that direction.")
