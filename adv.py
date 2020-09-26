@@ -42,18 +42,15 @@ def recursive_path(player, visited, came_from, path):
 
     # To protect against cyclical rooms
     if player.current_room.id in visited:
-        print('Looped', player.current_room.id)
-        path.append(came_from) #this is a bad idea
+        path.append(came_from)
         player.travel(came_from)
         return
     else:
         visited.add(player.current_room.id)
 
-    # To just stop when the last room is explored without adding to 
-    # maybe don't need this now
+    # To just stop when the last room is explored
     if len(visited) == len(room_graph):
-        print(len(visited))
-        print(len(path))
+        path.append(came_from)
         player.travel(came_from)
         return
 
@@ -63,6 +60,7 @@ def recursive_path(player, visited, came_from, path):
         player.travel(came_from)
         return
 
+    # loop through all the directions and explore them
     for direction in directions:
         if len(visited) == len(room_graph):
             continue
@@ -72,10 +70,7 @@ def recursive_path(player, visited, came_from, path):
         player.travel(direction)
         recursive_path(player, visited, came_from_map[direction], path)
 
-    # if len(visited) == len(room_graph):
-    #     player.travel(came_from)
-    #     return
-    # reconsider this
+    # Don't step backwards if you are at origin point
     if came_from is not None:
         path.append(came_from)
         player.travel(came_from)
